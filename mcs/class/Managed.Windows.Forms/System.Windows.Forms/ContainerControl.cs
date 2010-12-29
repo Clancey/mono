@@ -34,7 +34,7 @@ using System.Runtime.InteropServices;
 namespace System.Windows.Forms {
 	[ClassInterface (ClassInterfaceType.AutoDispatch)]
 	[ComVisible (true)]
-	public class ContainerControl : ScrollableControl, IContainerControl {
+	public partial class ContainerControl : ScrollableControl, IContainerControl {
 		private Control		active_control;
 		private Control		unvalidated_control;
 		private ArrayList	pending_validation_chain;
@@ -320,13 +320,6 @@ namespace System.Windows.Forms {
 			return null;
 		}
 
-		internal void SendControlFocus (Control c)
-		{
-			if (c.IsHandleCreated) {
-				XplatUI.SetFocus (c.window.Handle);
-			}
-		}
-
 		[Browsable (false)]
 		[DesignerSerializationVisibility (DesignerSerializationVisibility.Hidden)]
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
@@ -394,24 +387,6 @@ namespace System.Windows.Forms {
 			}
 		}
 
-		[Browsable (false)]
-		[EditorBrowsable (EditorBrowsableState.Advanced)]
-		public SizeF CurrentAutoScaleDimensions {
-			get {
-				switch(auto_scale_mode) {
-					case AutoScaleMode.Dpi:
-						return TextRenderer.GetDpi ();
-
-					case AutoScaleMode.Font:
-						Size s = TextRenderer.MeasureText ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890", Font);
-						int width = (int)Math.Round ((float)s.Width / 62f);
-						
-						return new SizeF (width, s.Height);
-				}
-
-				return auto_scale_dimensions;
-			}
-		}
 
 		[Browsable (false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -434,13 +409,9 @@ namespace System.Windows.Forms {
 		#endregion	// Public Instance Properties
 
 		#region Protected Instance Methods
+
 		protected override bool CanEnableIme {
 			get { return false; }
-		}
-		protected override CreateParams CreateParams {
-			get {
-				return base.CreateParams;
-			}
 		}
 		#endregion	// Public Instance Methods
 
@@ -566,14 +537,6 @@ namespace System.Windows.Forms {
 			OnBindingContextChanged (EventArgs.Empty);
 		}
 
-		protected override bool ProcessCmdKey (ref Message msg, Keys keyData)
-		{
-			if (ToolStripManager.ProcessCmdKey (ref msg, keyData) == true)
-				return true;
-				
-			return base.ProcessCmdKey (ref msg, keyData);
-		}
-
 		[EditorBrowsable (EditorBrowsableState.Advanced)]
 		protected override bool ProcessDialogChar(char charCode) {
 			if (GetTopLevel()) {
@@ -674,22 +637,6 @@ namespace System.Windows.Forms {
 			// MS Internal
 		}
 
-		[EditorBrowsable (EditorBrowsableState.Advanced)]
-		protected override void WndProc(ref Message m) {
-			switch ((Msg) m.Msg) {
-
-				case Msg.WM_SETFOCUS:
-					if (active_control != null)
-						Select (active_control);
-					else
-						base.WndProc (ref m);
-				break;
-
-				default:
-					base.WndProc(ref m);
-					break;
-			}
-		}
 		#endregion	// Protected Instance Methods
 
 		#region Internal Methods

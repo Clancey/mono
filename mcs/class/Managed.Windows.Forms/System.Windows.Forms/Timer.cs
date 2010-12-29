@@ -31,7 +31,7 @@ namespace System.Windows.Forms {
 	[DefaultProperty("Interval")]
 	[DefaultEvent("Tick")]
 	[ToolboxItemFilter("System.Windows.Forms", ToolboxItemFilterType.Allow)]
-	public class Timer : Component {
+	public partial class Timer : Component {
 
 		private bool enabled;
 		private int interval = 100;
@@ -45,66 +45,11 @@ namespace System.Windows.Forms {
 #endif
 		internal static readonly int Minimum = 15;
 
-		public Timer ()
-		{
-			enabled = false;
-		}
-
 		public Timer (IContainer container) : this ()
 		{
 			container.Add (this);
 		}
 
-		[DefaultValue (false)]
-		public virtual bool Enabled {
-			get {
-				return enabled;
-			}
-			set {
-				if (value != enabled) {
-					enabled = value;
-					if (value) {
-						// Use AddTicks so we get some rounding
-						expires = DateTime.UtcNow.AddMilliseconds (interval > Minimum ? interval : Minimum);
-
-						thread = Thread.CurrentThread;
-						XplatUI.SetTimer (this);
-					} else {
-						XplatUI.KillTimer (this);
-						thread = null;
-					}
-				}
-			}
-		}
-
-		[DefaultValue (100)]
-		public int Interval {
-			get {
-				return interval;
-			}
-			set {
-				if (value <= 0)
-#if NET_2_0
-					throw new ArgumentOutOfRangeException ("Interval", string.Format ("'{0}' is not a valid value for Interval. Interval must be greater than 0.", value));
-#else				
-					throw new ArgumentException (string.Format("'{0}' is not a valid value for Interval. Interval must be greater than 0.", value));
-#endif					
-
-				if (interval == value) {
-					return;
-				}
-				
-				interval = value;
-								
-				// Use AddTicks so we get some rounding
-				expires = DateTime.UtcNow.AddMilliseconds (interval > Minimum ? interval : Minimum);
-									
-				if (enabled == true) {				
-					XplatUI.KillTimer (this);
-					XplatUI.SetTimer (this);
-				}
-			}
-		}
 		
 #if NET_2_0
 		[Localizable(false)]

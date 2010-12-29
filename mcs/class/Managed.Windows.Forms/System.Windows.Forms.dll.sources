@@ -124,6 +124,7 @@ System.Windows.Forms/ComboBoxStyle.cs
 System.Windows.Forms/CommonDialog.cs
 System.Windows.Forms/ComponentModel.cs
 System.Windows.Forms/ContainerControl.cs
+System.Windows.Forms/ContainerControl.xplat.cs
 System.Windows.Forms/ContentsResizedEventArgs.cs
 System.Windows.Forms/ContentsResizedEventHandler.cs
 System.Windows.Forms/ContextMenu.cs
@@ -591,6 +592,7 @@ System.Windows.Forms/ScrollEventType.cs
 System.Windows.Forms/ScrollOrientation.cs
 System.Windows.Forms/ScrollProperties.cs
 System.Windows.Forms/ScrollableControl.cs
+System.Windows.Forms/ScrollableControl.xplat.cs
 System.Windows.Forms/SearchDirectionHint.cs
 System.Windows.Forms/SearchForVirtualItemEventArgs.cs
 System.Windows.Forms/SearchForVirtualItemEventHandler.cs
@@ -666,6 +668,7 @@ System.Windows.Forms/ThemeWin32Classic.cs
 System.Windows.Forms/ThreadExceptionDialog.cs
 System.Windows.Forms/TickStyle.cs
 System.Windows.Forms/Timer.cs
+System.Windows.Forms/Timer.xplat.cs
 System.Windows.Forms/ToolBar.cs
 System.Windows.Forms/ToolBarAppearance.cs
 System.Windows.Forms/ToolBarButton.cs
